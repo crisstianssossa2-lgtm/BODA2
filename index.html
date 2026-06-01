@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boda Malub & Cristian</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #1b263b; /* Azul oscuro elegante */
+            --gold: #d4af37; /* Dorado */
+            --text-light: #e0e1dd;
+            --white: #ffffff;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--primary-dark);
+            color: var(--text-light);
+            text-align: center;
+            /* Imagen de fondo tipo acuarela floral oscura */
+            background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1000&auto=format&fit=crop'); 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .overlay {
+            background-color: rgba(27, 38, 59, 0.85); /* Capa oscura para resaltar texto */
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            color: var(--gold);
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .date-section {
+            margin: 30px 0;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+        }
+
+        /* Cuenta Regresiva */
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .time-box {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--gold);
+            border-radius: 8px;
+            padding: 15px;
+            min-width: 70px;
+        }
+
+        .time-box span {
+            display: block;
+            font-size: 1.8rem;
+            color: var(--white);
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .time-box p {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            margin-top: 5px;
+            color: var(--gold);
+        }
+
+        /* Secciones de Tarjeta */
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            width: 100%;
+            max-width: 450px;
+            backdrop-filter: blur(10px);
+        }
+
+        .card p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        /* Botones y Formulario */
+        .btn {
+            display: inline-block;
+            background-color: transparent;
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .btn:hover {
+            background-color: var(--gold);
+            color: var(--primary-dark);
+        }
+
+        .btn:disabled {
+            border-color: #555;
+            color: #555;
+            cursor: not-allowed;
+            background-color: transparent;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            background: rgba(0,0,0,0.2);
+            color: white;
+            font-size: 1rem;
+            text-align: center;
+        }
+        
+        input[type="text"]::placeholder {
+            color: #aaa;
+        }
+
+        .message {
+            margin-top: 15px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            display: none;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="overlay">
+    
+    <h3>Nuestra Boda</h3>
+    <h1>Malub & Cristian</h1>
+    
+    <div class="date-section">
+        <p>Save the Date</p>
+        <p><strong>18 de Diciembre, 2026</strong></p>
+    </div>
+
+    <div class="countdown" id="countdown">
+        <div class="time-box"><span id="days">00</span><p>Días</p></div>
+        <div class="time-box"><span id="hours">00</span><p>Hrs</p></div>
+        <div class="time-box"><span id="mins">00</span><p>Min</p></div>
+        <div class="time-box"><span id="secs">00</span><p>Seg</p></div>
+    </div>
+
+    <div class="card">
+        <h2>Ubicación del Evento</h2>
+        <p>Te esperamos para celebrar nuestro gran día. Hemos preparado todo con mucho amor.</p>
+        <a href="https://www.google.com/maps/place/14%C2%B059'47.0%22N+89%C2%B034'45.8%22W" target="_blank" class="btn">Ver Ubicación en Mapa</a>
+    </div>
+
+    <div class="card">
+        <h2>Confirma tu Asistencia</h2>
+        <p>Este formulario está enlazado a nuestra lista de invitados oficial.</p>
+        <p style="font-size: 0.85rem; color: #aaa;">Por favor, ingresa tu código (ID) para confirmar.</p>
+        
+        <form id="rsvp-form">
+            <input type="text" id="guest-id" placeholder="Ej: ID-6615" required>
+            <button type="submit" class="btn" id="submit-btn">Enviar Confirmación</button>
+        </form>
+        
+        <div id="form-message" class="message"></div>
+    </div>
+
+</div>
+
+<script>
+    // --- LÓGICA DE LA CUENTA REGRESIVA (18 de Diciembre de 2026) ---
+    const weddingDate = new Date("Dec 18, 2026 16:00:00").getTime();
+
+    const timer = setInterval(function() {
+        const now = new Date().getTime();
+        const distance = weddingDate - now;
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById("days").innerHTML = days < 10 ? '0' + days : days;
+        document.getElementById("hours").innerHTML = hours < 10 ? '0' + hours : hours;
+        document.getElementById("mins").innerHTML = minutes < 10 ? '0' + minutes : minutes;
+        document.getElementById("secs").innerHTML = seconds < 10 ? '0' + seconds : seconds;
+
+        if (distance < 0) {
+            clearInterval(timer);
+            document.getElementById("countdown").innerHTML = "¡Llegó el gran día!";
+        }
+    }, 1000);
+
+    // --- LÓGICA DE CONEXIÓN CON GOOGLE SHEETS ---
+    document.getElementById('rsvp-form').addEventListener('submit', function(e) {
+        e.preventDefault(); 
+        
+        const guestId = document.getElementById('guest-id').value.toUpperCase().trim();
+        const messageEl = document.getElementById('form-message');
+        const submitBtn = document.getElementById('submit-btn');
+        
+        // ----------------------------------------------------------------------
+        // ATENCIÓN: El enlace de abajo (scriptURL) NO puede ser el enlace /edit que me compartiste.
+        // Debes hacer los pasos de "Extensiones > Apps Script > Implementar" 
+        // y pegar aquí la URL que termina en /exec
+        // ----------------------------------------------------------------------
+        const scriptURL = 'https://docs.google.com/spreadsheets/d/1Wd5tR_9k0rrTDzVxFdH-dh33BlAtmvW2c36Q9tjGhyw/edit?usp=sharing'; 
+
+        // Mostramos mensaje de carga
+        messageEl.style.display = 'block';
+        messageEl.style.backgroundColor = 'rgba(212, 175, 55, 0.2)'; // Fondo doradito
+        messageEl.style.color = 'var(--gold)';
+        messageEl.innerText = "Buscando tu invitación en la base de datos...";
+        submitBtn.disabled = true; 
+        submitBtn.innerText = "Procesando...";
+
+        // Hacemos la conexión al Excel
+        fetch(scriptURL + '?id=' + guestId)
+          .then(response => response.json())
+          .then(data => {
+              submitBtn.disabled = false;
+              submitBtn.innerText = "Enviar Confirmación";
+              
+              if(data.status === 'success') {
+                  messageEl.style.backgroundColor = 'rgba(76, 175, 80, 0.2)';
+                  messageEl.style.color = "#4CAF50"; // Verde
+                  messageEl.innerText = "¡Gracias " + data.nombre + "! Tu asistencia para " + data.pases + " persona(s) ha sido confirmada en el documento.";
+                  document.getElementById('guest-id').value = ''; // Limpiamos el campo
+              } else {
+                  messageEl.style.backgroundColor = 'rgba(244, 67, 54, 0.2)';
+                  messageEl.style.color = "#f44336"; // Rojo
+                  messageEl.innerText = "Lo siento, no encontramos el código " + guestId + ". Revisa tu ID y vuelve a intentarlo.";
+              }
+          })
+          .catch(error => {
+              submitBtn.disabled = false;
+              submitBtn.innerText = "Enviar Confirmación";
+              messageEl.style.backgroundColor = 'rgba(244, 67, 54, 0.2)';
+              messageEl.style.color = "#f44336"; // Rojo
+              messageEl.innerText = "Falta configurar la URL del script en el código o hubo un error de conexión.";
+          });
+    });
+</script>
+
+</body>
+</html>
