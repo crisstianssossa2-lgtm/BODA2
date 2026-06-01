@@ -321,8 +321,8 @@
             return;
         }
         
-        // URL del Apps Script desplegado
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbx_rmIXkHemmvfmlLcJ9frMBYvtTItW1nC1m-KlmBsI5x6qOn7VodtYdSqSF8zEElvnog/exec';
+        // URL del Apps Script desplegado (ACTUALIZADA)
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxfolBtQJcHtdX98BpNoGm59BW26ryWPsSWcZ_BNE9pdkXAjMckZZe0TB0ON6xSwmkBgA/exec';
 
         // Mostramos mensaje de carga
         messageEl.className = 'message loading';
@@ -336,40 +336,44 @@
         fetch(scriptURL + '?id=' + encodeURIComponent(guestId))
           .then(response => {
               if (!response.ok) {
-                  throw new Error('Error en la solicitud');
+                  throw new Error('Error en la solicitud: ' + response.status);
               }
               return response.json();
           })
           .then(data => {
               if(data.status === 'success') {
                   // Invitado encontrado, ahora guardamos la confirmación
+                  const formData = new URLSearchParams();
+                  formData.append('id', guestId);
+                  formData.append('confirmed', 'SÍ');
+
                   return fetch(scriptURL, {
                       method: 'POST',
-                      headers: {
-                          'Content-Type': 'application/x-www-form-urlencoded',
-                      },
-                      body: new URLSearchParams({
-                          'id': guestId,
-                          'confirmed': 'SÍ'
-                      })
-                  }).then(res => res.json())
-                    .then(confirmData => {
-                        if(confirmData.status === 'success') {
-                            // Confirmación guardada exitosamente
-                            messageEl.className = 'message success';
-                            messageEl.innerText = "¡Gracias " + data.nombre + "! Tu asistencia ha sido confirmada correctamente.";
-                            
-                            // Mostrar info del invitado
-                            document.getElementById('guest-name').innerText = data.nombre;
-                            document.getElementById('guest-passes').innerText = data.pases + " persona(s)";
-                            guestInfoEl.classList.add('show');
-                            
-                            // Limpiar campo
-                            document.getElementById('guest-id').value = '';
-                        } else {
-                            throw new Error('No se pudo guardar la confirmación');
-                        }
-                    });
+                      body: formData
+                  })
+                  .then(res => {
+                      if (!res.ok) {
+                          throw new Error('Error al guardar: ' + res.status);
+                      }
+                      return res.json();
+                  })
+                  .then(confirmData => {
+                      if(confirmData.status === 'success') {
+                          // Confirmación guardada exitosamente
+                          messageEl.className = 'message success';
+                          messageEl.innerText = "¡Gracias " + data.nombre + "! Tu asistencia ha sido confirmada correctamente.";
+                          
+                          // Mostrar info del invitado
+                          document.getElementById('guest-name').innerText = data.nombre;
+                          document.getElementById('guest-passes').innerText = data.pases + " persona(s)";
+                          guestInfoEl.classList.add('show');
+                          
+                          // Limpiar campo
+                          document.getElementById('guest-id').value = '';
+                      } else {
+                          throw new Error('No se pudo guardar la confirmación');
+                      }
+                  });
               } else {
                   messageEl.className = 'message error';
                   messageEl.innerText = "Lo siento, no encontramos el código '" + guestId + "'. Verifica tu ID y vuelve a intentarlo.";
@@ -378,9 +382,9 @@
           })
           .catch(error => {
               messageEl.className = 'message error';
-              messageEl.innerText = "Error de conexión. Por favor, intenta de nuevo más tarde.";
+              messageEl.innerText = "Error: " + error.message + ". Intenta de nuevo más tarde.";
               guestInfoEl.classList.remove('show');
-              console.error('Error:', error);
+              console.error('Error completo:', error);
           })
           .finally(() => {
               submitBtn.disabled = false;
